@@ -1,0 +1,20 @@
+# OpenClaw private files
+SOUL.md
+USER.md
+AGENTS.md
+TOOLS.md
+HEARTBEAT.md
+IDENTITY.md
+BOOTSTRAP.md
+memory/
+.openclaw/
+skills/
+
+# Resume/personal files
+*.pdf
+resume_*.png
+resume_page-*.png
+dawn_resume_parsed.md
+
+# OS
+.DS_Store
