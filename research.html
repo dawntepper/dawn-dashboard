@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Research — Dawn Tepper</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f1117;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+  header { margin-bottom: 2.5rem; border-bottom: 1px solid #2d3748; padding-bottom: 1.5rem; }
+  header h1 { font-size: 1.8rem; font-weight: 700; color: #fff; }
+  header p { color: #94a3b8; margin-top: 0.4rem; font-size: 0.95rem; }
+  header a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; }
+  header a:hover { color: #fff; }
+
+  .project-card {
+    background: #1a1f2e;
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+  }
+  .project-card h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge-hot { background: #7c3aed33; color: #a78bfa; border: 1px solid #7c3aed55; }
+  .badge-live { background: #059669aa; color: #6ee7b7; border: 1px solid #059669; }
+  .badge-researching { background: #d9770633; color: #fbbf24; border: 1px solid #d9770655; }
+
+  .project-card .tagline { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.25rem; }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .project-card p { color: #cbd5e1; font-size: 0.92rem; margin-bottom: 0.5rem; }
+  .project-card ul { color: #cbd5e1; font-size: 0.92rem; padding-left: 1.2rem; }
+  .project-card ul li { margin-bottom: 0.35rem; }
+  .project-card a { color: #818cf8; text-decoration: none; }
+  .project-card a:hover { text-decoration: underline; }
+
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .stat {
+    background: #0f1117;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    flex: 1;
+    min-width: 140px;
+  }
+  .stat .stat-val { font-size: 1.3rem; font-weight: 700; color: #fff; }
+  .stat .stat-label { font-size: 0.75rem; color: #64748b; margin-top: 0.2rem; }
+
+  .reddit-quote {
+    background: #0f1117;
+    border-left: 3px solid #7c3aed;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1rem;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+    color: #94a3b8;
+    font-style: italic;
+  }
+  .reddit-source {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.3rem;
+    font-style: normal;
+  }
+
+  .timeline {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .timeline-date {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a78bfa;
+    min-width: 90px;
+    padding-top: 0.1rem;
+  }
+  .timeline-text { font-size: 0.88rem; color: #cbd5e1; }
+  .timeline-text.urgent { color: #f87171; font-weight: 600; }
+
+  .competitor-table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; font-size: 0.88rem; }
+  .competitor-table th {
+    text-align: left;
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #2d3748;
+  }
+  .competitor-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #1e2535;
+    color: #cbd5e1;
+    vertical-align: top;
+  }
+  .competitor-table tr:last-child td { border-bottom: none; }
+  .gap { color: #6ee7b7; font-weight: 600; }
+
+  .pricing-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+  .price-tier {
+    flex: 1;
+    min-width: 160px;
+    background: #0f1117;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .price-tier.highlight { border-color: #7c3aed; }
+  .price-tier .tier-name { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #64748b; }
+  .price-tier .tier-price { font-size: 1.4rem; font-weight: 700; color: #fff; margin: 0.25rem 0; }
+  .price-tier .tier-desc { font-size: 0.82rem; color: #94a3b8; }
+
+  .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    background: #1e2535;
+    color: #94a3b8;
+    border: 1px solid #2d3748;
+  }
+
+  .updated { color: #64748b; font-size: 0.78rem; margin-top: 1.5rem; text-align: right; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <a href="/">← Dashboard</a>
+    <h1 style="margin-top:0.75rem">🔬 Project Research</h1>
+    <p>Active ideas, market research, and competitive analysis — updated as I explore.</p>
+  </header>
+
+  <!-- PROJECT 1: BurnRate Pro -->
+  <div class="project-card">
+    <h2>🔥 BurnRate Pro <span class="badge badge-live">Live</span></h2>
+    <p class="tagline">Chrome extension that adds a BR$ badge to AI agent posts on X — click for instant cost breakdown + calculator. $19.99 one-time.</p>
+
+    <div class="section-label">Links</div>
+    <ul>
+      <li><a href="https://checkburnrate.com" target="_blank">checkburnrate.com</a> — landing page + free web tool</li>
+      <li><a href="https://mkzlabs.gumroad.com/l/burnratepro" target="_blank">Gumroad listing</a> — $19.99 one-time purchase</li>
+    </ul>
+
+    <div class="section-label">The Insight</div>
+    <p>People on X constantly post "runs 24/7 with zero manual work 🚀" with no mention of cost. The BR$ panel ran one such post (193K impressions) and returned <strong>$3,900–$5,000/month</strong> — $3,240/month in LLM costs alone. Nobody in the replies ever asks.</p>
+
+    <div class="section-label">Status &amp; Traction</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">$0</div><div class="stat-label">Revenue (day 1)</div></div>
+      <div class="stat"><div class="stat-val">$19.99</div><div class="stat-label">One-time price</div></div>
+      <div class="stat"><div class="stat-val">Mar 12</div><div class="stat-label">X thread launched</div></div>
+      <div class="stat"><div class="stat-val">+500</div><div class="stat-label">Theegala odds 😄</div></div>
+    </div>
+
+    <div class="section-label">Go-To-Market</div>
+    <ul>
+      <li>X thread posted Mar 12 2026 — targeting AI flex post audience</li>
+      <li>Standalone punchy tweet planned (1-2hr later)</li>
+      <li>Show HN post — technical angle, separate from article</li>
+      <li>ProductHunt launch — needs GIF + gallery assets, best day Tue/Wed</li>
+      <li>Full article draft ready for checkburnrate.com/blog</li>
+    </ul>
+
+    <div class="section-label">Risks</div>
+    <ul>
+      <li>Landing page is a JS SPA — may not be indexed by Google (check Search Console)</li>
+      <li>6-8 week window while OpenClaw gold rush is peak</li>
+      <li>Distribution is everything — product works, needs eyeballs</li>
+    </ul>
+  </div>
+
+  <!-- PROJECT 2: EU AI Act Compliance Tool -->
+  <div class="project-card">
+    <h2>⚖️ EU AI Act Compliance Tool <span class="badge badge-researching">Researching</span></h2>
+    <p class="tagline">Plain-English compliance checker + actionable checklist for solo devs using AI APIs. Subscription-based with August 2026 deadline urgency.</p>
+
+    <div class="section-label">The Opportunity</div>
+    <p>Any developer calling Claude/OpenAI APIs is legally a <strong>"deployer"</strong> under the EU AI Act — with real obligations around logging, transparency, and documentation. Most have no idea. Enforcement starts <strong>August 2, 2026</strong>. Fines up to €35M or 7% of global revenue — bigger than GDPR.</p>
+
+    <div class="section-label">Compliance Timeline</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Feb 2025</div>
+        <div class="timeline-text">Prohibited-use provisions active — already in effect</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Aug 2, 2026</div>
+        <div class="timeline-text urgent">⚠️ Majority of rules in force — enforcement starts (5 months away)</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Aug 2027</div>
+        <div class="timeline-text">High-risk financial sector rules kick in</div>
+      </div>
+    </div>
+
+    <div class="section-label">What Reddit Is Saying</div>
+    <div class="reddit-quote">
+      "I kept hearing about the EU AI Act but assumed it was mainly for big tech. Then I realized deployers — basically anyone using AI APIs — might have real obligations too. Logging, documentation, risk assessments… it's a lot more than just 'store data in the EU.' Enforcement starts Aug 2026. So what's everyone actually doing about this?"
+      <div class="reddit-source">— r/SaaS, 3 weeks ago</div>
+    </div>
+    <div class="reddit-quote">
+      "Most founders I talk to have no idea it's even happening. Fines are up to 35 million euros or 7% of global revenue — bigger than GDPR. Is anyone actually preparing or is everyone just going to scramble in July?"
+      <div class="reddit-source">— r/startups, 1 day ago (trending)</div>
+    </div>
+    <div class="reddit-quote">
+      "Most SaaS products that 'do AI' don't land in high-risk categories — obligations are much lighter. Mainly transparency requirements and downstream documentation."
+      <div class="reddit-source">— r/legaltech (reassuring context — most solo devs are minimal risk)</div>
+    </div>
+
+    <div class="section-label">Key Insight for Product Design</div>
+    <p>Most solo devs are <strong>minimal risk</strong> — the product should be calm and reassuring, not a fear machine. The value is clarity: "here's your actual situation, here's your 3-step checklist, breathe."</p>
+
+    <div class="section-label">Competitor Landscape</div>
+    <table class="competitor-table">
+      <tr>
+        <th>Tool</th><th>What it does</th><th>Gap</th>
+      </tr>
+      <tr>
+        <td><a href="https://hlinix.com/checker" target="_blank">hlinix.com</a></td>
+        <td>7-question risk level checker, free, no signup</td>
+        <td class="gap">No action plan, no checklist, no monetization, no updates</td>
+      </tr>
+      <tr>
+        <td>artificialintelligenceact.eu</td>
+        <td>Official EU government checker</td>
+        <td class="gap">Government-style form, not dev-friendly, no "what to do"</td>
+      </tr>
+      <tr>
+        <td>SecurePrivacy, etc.</td>
+        <td>Enterprise compliance platforms</td>
+        <td class="gap">$500+/month, way too heavy for solo devs</td>
+      </tr>
+    </table>
+
+    <div class="section-label">Proposed Pricing</div>
+    <div class="pricing-row">
+      <div class="price-tier">
+        <div class="tier-name">Free</div>
+        <div class="tier-price">$0</div>
+        <div class="tier-desc">Risk level assessment — better than hlinix</div>
+      </div>
+      <div class="price-tier highlight">
+        <div class="tier-name">Report</div>
+        <div class="tier-price">$49</div>
+        <div class="tier-desc">Full plain-English checklist specific to your product</div>
+      </div>
+      <div class="price-tier">
+        <div class="tier-name">Stay Current</div>
+        <div class="tier-price">$9/mo</div>
+        <div class="tier-desc">Alerts when law changes affect your risk. Recurring hook.</div>
+      </div>
+    </div>
+
+    <div class="section-label">BurnRate Connection</div>
+    <p>Same buyer. Natural upsell: <em>"You bought BurnRate to understand AI costs. Now make sure you're compliant when you ship."</em></p>
+
+    <div class="section-label">Key Risk</div>
+    <p>Not a lawyer — product needs a clear "not legal advice" disclaimer. Same model as TurboTax. Selling clarity and a starting point, not a legal opinion.</p>
+
+    <div class="section-label">Useful Reddit Threads</div>
+    <ul>
+      <li><a href="https://www.reddit.com/r/SaaS/comments/1ra1zmw/" target="_blank">r/SaaS — "Anyone else confused about what the EU AI Act means for SaaS?"</a></li>
+      <li><a href="https://www.reddit.com/r/startups/comments/1rqz37z/" target="_blank">r/startups — "How many of you know about the EU AI Act?" (posted yesterday, hot)</a></li>
+      <li><a href="https://www.reddit.com/r/microsaas/comments/1rf76ko/" target="_blank">r/microsaas — hlinix post (closest competitor, read the comments)</a></li>
+      <li><a href="https://www.reddit.com/r/legaltech/comments/1rfxqis/" target="_blank">r/legaltech — EU AI Act from a software perspective (grounding context)</a></li>
+    </ul>
+
+    <div class="tags">
+      <span class="tag">Aug 2026 deadline</span>
+      <span class="tag">Solo devs</span>
+      <span class="tag">Subscription potential</span>
+      <span class="tag">Same audience as BurnRate</span>
+      <span class="tag">5 month window</span>
+    </div>
+  </div>
+
+  <!-- PROJECT 3: GEO Tool (parked) -->
+  <div class="project-card">
+    <h2>🔍 GEO / AI Visibility Tool <span class="badge badge-hot">Parked</span></h2>
+    <p class="tagline">"Does AI recommend your product?" — checker for solo devs to see if ChatGPT, Claude, Perplexity would recommend their tool.</p>
+
+    <div class="section-label">The Gap</div>
+    <p>Existing GEO tools (ZipTie.dev, Semrush AI Toolkit, Otterly AI, Profound.ai) all target marketing teams and enterprises. Nobody serves the solo dev who just shipped and has no idea if Claude knows they exist.</p>
+
+    <div class="section-label">Why Parked</div>
+    <p>Space is getting crowded fast. Otterly AI already has 20K+ users and Gartner recognition. The EU AI Act tool has a harder deadline and less competition at the indie level right now. Revisit Q3 2026.</p>
+
+    <div class="tags">
+      <span class="tag">Revisit Q3 2026</span>
+      <span class="tag">Crowding fast</span>
+      <span class="tag">Same audience</span>
+    </div>
+  </div>
+
+  <p class="updated">Last updated: March 12, 2026 · Generated by AI assistant</p>
+</div>
+</body>
+</html>
