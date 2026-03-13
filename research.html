@@ -203,56 +203,41 @@
 (function() {
   var PASS = "mkzl@b53296!";
   var KEY = "research_auth";
-  var EXPIRY_KEY = "research_auth_expiry";
-  var SESSION_DAYS = 7;
+  var EXP = "research_auth_expiry";
+  var DAYS = 7;
 
-  function isAuthed() {
-    var expiry = localStorage.getItem(EXPIRY_KEY);
-    return localStorage.getItem(KEY) === "1" && expiry && Date.now() < parseInt(expiry);
-  }
-
-  if (isAuthed()) return;
+  if (localStorage.getItem(KEY) === "1" && Date.now() < parseInt(localStorage.getItem(EXP) || 0)) return;
 
   document.body.style.display = "none";
 
-  var overlay = document.createElement("div");
-  overlay.id = "auth-overlay";
-  overlay.innerHTML = [
-    '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">',
-    '  <div style="background:#1a1f2e;border:1px solid #2d3748;border-radius:12px;padding:2rem 2.5rem;width:100%;max-width:360px;text-align:center;">',
-    '    <div style="font-size:2rem;margin-bottom:0.75rem;">🔒</div>',
-    '    <h2 style="color:#fff;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;">Research — Private</h2>',
-    '    <p style="color:#64748b;font-size:0.85rem;margin-bottom:1.5rem;">Enter password to continue</p>',
-    '    <input id="auth-input" type="password" placeholder="Password" autofocus',
-    '      style="width:100%;background:#0f1117;border:1px solid #2d3748;border-radius:8px;padding:0.65rem 1rem;color:#fff;font-size:0.95rem;outline:none;box-sizing:border-box;margin-bottom:0.75rem;" />',
-    '    <div id="auth-error" style="color:#f87171;font-size:0.8rem;min-height:1.2rem;margin-bottom:0.5rem;"></div>',
-    '    <button id="auth-btn"',
-    '      style="width:100%;background:#4f46e5;border:none;border-radius:8px;padding:0.65rem;color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;">',
-    '      Unlock',
-    '    </button>',
-    '  </div>',
-    '</div>'
-  ].join("\n");
-  document.body.appendChild(overlay);
+  var d = document.createElement("div");
+  d.style.cssText = "display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f1117;font-family:sans-serif;";
+  d.innerHTML = '<div style="background:#1a1f2e;border:1px solid #2d3748;border-radius:12px;padding:2rem 2.5rem;width:100%;max-width:360px;text-align:center;">'
+    + '<div style="font-size:2rem;margin-bottom:0.75rem;">&#128274;</div>'
+    + '<h2 style="color:#fff;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;">Research &mdash; Private</h2>'
+    + '<p style="color:#64748b;font-size:0.85rem;margin-bottom:1.5rem;">Enter password to continue</p>'
+    + '<input id="ri" type="password" placeholder="Password" style="width:100%;background:#0f1117;border:1px solid #2d3748;border-radius:8px;padding:0.65rem 1rem;color:#fff;font-size:0.95rem;outline:none;box-sizing:border-box;margin-bottom:0.75rem;" />'
+    + '<div id="re" style="color:#f87171;font-size:0.8rem;min-height:1.2rem;margin-bottom:0.5rem;"></div>'
+    + '<button id="rb" style="width:100%;background:#4f46e5;border:none;border-radius:8px;padding:0.65rem;color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;">Unlock</button>'
+    + '</div>';
+  document.body.appendChild(d);
   document.body.style.display = "";
 
+  setTimeout(function() { document.getElementById("ri").focus(); }, 50);
+
   function tryAuth() {
-    var val = document.getElementById("auth-input").value;
-    if (val === PASS) {
+    if (document.getElementById("ri").value === PASS) {
       localStorage.setItem(KEY, "1");
-      localStorage.setItem(EXPIRY_KEY, Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
-      overlay.remove();
-      document.body.style.display = "";
+      localStorage.setItem(EXP, Date.now() + DAYS * 86400000);
+      d.remove();
     } else {
-      document.getElementById("auth-error").textContent = "Incorrect password.";
-      document.getElementById("auth-input").value = "";
+      document.getElementById("re").textContent = "Incorrect password.";
+      document.getElementById("ri").value = "";
     }
   }
 
-  document.getElementById("auth-btn").addEventListener("click", tryAuth);
-  document.getElementById("auth-input").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") tryAuth();
-  });
+  document.getElementById("rb").addEventListener("click", tryAuth);
+  document.getElementById("ri").addEventListener("keydown", function(e) { if (e.key === "Enter") tryAuth(); });
 })();
 </script>
 
