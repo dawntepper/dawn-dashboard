@@ -199,6 +199,36 @@
 </style>
 </head>
 <body>
+<script>
+(function() {
+  var PASS = "mkzlabs2026";
+  var KEY = "research_auth";
+  var EXPIRY_KEY = "research_auth_expiry";
+  var SESSION_DAYS = 7;
+
+  function isAuthed() {
+    var val = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+    var expiry = localStorage.getItem(EXPIRY_KEY);
+    if (val === "1" && expiry && Date.now() < parseInt(expiry)) return true;
+    return val === "1" && sessionStorage.getItem(KEY) === "1";
+  }
+
+  if (!isAuthed()) {
+    document.body.style.display = "none";
+    var pwd = prompt("🔒 Enter password to access Research:");
+    if (pwd === PASS) {
+      localStorage.setItem(KEY, "1");
+      localStorage.setItem(EXPIRY_KEY, Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
+      sessionStorage.setItem(KEY, "1");
+      document.body.style.display = "";
+    } else {
+      document.body.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100vh;background:#0f1117;color:#64748b;font-family:sans-serif;font-size:1rem;'>🔒 Access denied.</div>";
+      document.body.style.display = "";
+    }
+  }
+})();
+</script>
+
 <div class="container">
   <header>
     <a href="/">← Dashboard</a>
