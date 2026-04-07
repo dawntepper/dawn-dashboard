@@ -3,376 +3,510 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morning Sports Dashboard — April 2, 2026</title>
+<title>Morning Sports Dashboard — April 7, 2026</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --text: #e8eaf0;
+    --text-muted: #8892a4;
+    --nba: #c9a227;
+    --nfl: #4a90d9;
+    --mlb: #e05c5c;
+    --pga: #4caf7d;
+    --jobs: #9b59b6;
+    --research: #e67e22;
+    --border: #2e3349;
+    --btn-active: #3b4166;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #0f1117;
-    color: #e2e8f0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     min-height: 100vh;
-    padding: 0 0 60px;
   }
   header {
     text-align: center;
-    padding: 36px 20px 20px;
-    background: linear-gradient(180deg, #1a1d2e 0%, #0f1117 100%);
-    border-bottom: 1px solid #2d3148;
+    padding: 2.5rem 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #12151f 0%, var(--bg) 100%);
   }
   header h1 {
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #a78bfa, #60a5fa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #fff;
   }
   header p {
-    color: #64748b;
-    font-size: 0.85rem;
-    margin-top: 6px;
-    text-align: center;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
   }
-
-  /* Filter bar */
   .filter-bar {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
-    padding: 20px 20px 10px;
+    gap: 0.5rem;
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    background: #0f1117ee;
-    backdrop-filter: blur(8px);
     z-index: 100;
-    border-bottom: 1px solid #1e2235;
+    background: var(--bg);
   }
   .filter-btn {
-    background: #1e2235;
-    color: #94a3b8;
-    border: 1px solid #2d3148;
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.15s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.18s;
     text-decoration: none;
     display: inline-block;
   }
-  .filter-btn:hover { background: #2d3558; color: #e2e8f0; }
-  .filter-btn.active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
-
-  /* Grid */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 16px;
-    max-width: 1280px;
-    margin: 28px auto 0;
-    padding: 0 20px;
+  .filter-btn:hover { background: var(--surface2); color: var(--text); }
+  .filter-btn.active { background: var(--btn-active); color: #fff; border-color: #5a6080; }
+  .filter-btn[data-cat="all"].active { border-color: #8892a4; }
+  .filter-btn[data-cat="nba"].active { border-color: var(--nba); color: var(--nba); }
+  .filter-btn[data-cat="nfl"].active { border-color: var(--nfl); color: var(--nfl); }
+  .filter-btn[data-cat="mlb"].active { border-color: var(--mlb); color: var(--mlb); }
+  .filter-btn[data-cat="pga"].active { border-color: var(--pga); color: var(--pga); }
+  .filter-btn[data-cat="jobs"].active { border-color: var(--jobs); color: var(--jobs); }
+  a.filter-btn[style*="research"], .filter-btn.research-btn {
+    border-color: var(--research) !important;
+    color: var(--research) !important;
   }
-
-  /* Section headers */
-  .section-header {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 10px;
-    margin-bottom: 4px;
+  a.filter-btn[style*="research"]:hover {
+    background: var(--surface2);
   }
-  .section-header h2 {
-    font-size: 1rem;
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+  .section { margin-bottom: 2.5rem; }
+  .section-title {
+    font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #94a3b8;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-left: 0.25rem;
   }
-  .section-line { flex: 1; height: 1px; background: #1e2235; }
-
-  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1rem;
+  }
   .card {
-    background: #161927;
-    border: 1px solid #1e2235;
-    border-radius: 12px;
-    padding: 18px 18px 16px;
-    border-left: 4px solid transparent;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
     position: relative;
   }
   .card:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   }
-  .card.nba  { border-left-color: #f97316; }
-  .card.nfl  { border-left-color: #22c55e; }
-  .card.mlb  { border-left-color: #3b82f6; }
-  .card.pga  { border-left-color: #a78bfa; }
-  .card.jobs { border-left-color: #f59e0b; }
-
-  /* Card title row (JS injects .card-title-row) */
+  .card-accent {
+    height: 4px;
+    width: 100%;
+  }
+  .nba-card .card-accent { background: var(--nba); }
+  .nfl-card .card-accent { background: var(--nfl); }
+  .mlb-card .card-accent { background: var(--mlb); }
+  .pga-card .card-accent { background: var(--pga); }
+  .jobs-card .card-accent { background: var(--jobs); }
+  .card-body { padding: 1.1rem 1.2rem 1.2rem; }
+  .card-meta {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+  }
+  .nba-card .card-meta { color: var(--nba); }
+  .nfl-card .card-meta { color: var(--nfl); }
+  .mlb-card .card-meta { color: var(--mlb); }
+  .pga-card .card-meta { color: var(--pga); }
+  .jobs-card .card-meta { color: var(--jobs); }
   .card-title-row {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
   }
   .card h2 {
     font-size: 0.97rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #e2e8f0;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--text);
     flex: 1;
   }
   .copy-btn {
     background: none;
-    border: 1px solid #2d3148;
-    border-radius: 6px;
-    color: #64748b;
-    font-size: 0.85rem;
-    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 5px;
     cursor: pointer;
+    padding: 2px 6px;
+    font-size: 0.85rem;
     flex-shrink: 0;
-    transition: all 0.15s;
     margin-top: 1px;
+    transition: all 0.15s;
   }
-  .copy-btn:hover { background: #2d3148; color: #e2e8f0; }
-  .copy-btn.copied { color: #22c55e; border-color: #22c55e; }
-
-  .card p  { font-size: 0.83rem; color: #64748b; line-height: 1.5; }
-  .card a  { color: #60a5fa; text-decoration: none; font-size: 0.8rem; }
-  .card a:hover { text-decoration: underline; }
-
+  .copy-btn:hover { background: var(--surface2); color: var(--text); }
+  .copy-btn.copied { border-color: #4caf7d; color: #4caf7d; }
+  .card p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
   .tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 2px 7px;
-    margin-bottom: 8px;
+    font-size: 0.7rem;
+    font-weight: 500;
   }
-  .tag.nba  { background: #f9731620; color: #f97316; }
-  .tag.nfl  { background: #22c55e20; color: #22c55e; }
-  .tag.mlb  { background: #3b82f620; color: #3b82f6; }
-  .tag.pga  { background: #a78bfa20; color: #a78bfa; }
-  .tag.jobs { background: #f59e0b20; color: #f59e0b; }
-
-  .meta { font-size: 0.75rem; color: #475569; margin-top: 8px; }
-
-  /* hidden sections */
-  .section-group { display: contents; }
-  .section-group.hidden .card,
-  .section-group.hidden .section-header { display: none; }
+  .card a.read-more {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+  .card a.read-more:hover { color: var(--text); }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>🏆 Morning Sports Dashboard</h1>
-  <p>Thursday, April 2, 2026 &nbsp;·&nbsp; 7:00 AM ET &nbsp;·&nbsp; Today's top headlines</p>
+  <p>Tuesday, April 7, 2026 &nbsp;·&nbsp; Updated 7:00 AM ET</p>
 </header>
 
 <div class="filter-bar">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="nba">🏀 NBA</button>
-  <button class="filter-btn" data-filter="nfl">🏈 NFL</button>
-  <button class="filter-btn" data-filter="mlb">⚾ MLB</button>
-  <button class="filter-btn" data-filter="pga">⛳ PGA</button>
-  <button class="filter-btn" data-filter="jobs">💼 Jobs</button>
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="nba">🏀 NBA</button>
+  <button class="filter-btn" data-cat="nfl">🏈 NFL</button>
+  <button class="filter-btn" data-cat="mlb">⚾ MLB</button>
+  <button class="filter-btn" data-cat="pga">⛳ PGA</button>
+  <button class="filter-btn" data-cat="jobs">💼 Jobs</button>
   <a href="/research" class="filter-btn" style="text-decoration:none;">🔬 Research</a>
 </div>
 
-<div class="grid">
+<main>
 
-  <!-- ═══ NBA ═══ -->
-  <div class="section-group" data-section="nba">
-    <div class="section-header">
-      <h2>🏀 NBA</h2>
-      <div class="section-line"></div>
-    </div>
+  <!-- NBA -->
+  <div class="section" data-section="nba">
+    <div class="section-title">🏀 NBA — Final Week of the Regular Season</div>
+    <div class="cards-grid">
 
-    <div class="card nba">
-      <span class="tag nba">NBA</span>
-      <h2>Wembanyama Explodes for 41 Pts, 18 Rebs as Spurs Stun Warriors</h2>
-      <p>Victor Wembanyama was unstoppable on Wednesday night, dropping 41 points, 18 rebounds and 3 blocks to lead San Antonio over Golden State and keep the Spurs surging into the playoff picture.</p>
-      <p class="meta">ESPN · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.espn.com/nba/story/_/id/48287649/nba-playoff-watch-2026-standings-schedules-projections-clinchings" target="_blank">espn.com ↗</a></p>
-    </div>
+      <div class="card nba-card" data-cat="nba">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NBA · Playoffs · Apr 7</div>
+          <h2>NBA Playoffs Final Push: Hawks, 76ers, Heat Battle for Last East Spots</h2>
+          <p>With the Play-In Tournament beginning April 14, Atlanta, Philadelphia, Charlotte, Orlando, Miami and Toronto are all jockeying for position in a wild final week. Detroit holds the East's top seed.</p>
+          <div class="card-footer">
+            <span class="tag">Playoff Race</span>
+            <a href="https://sports.yahoo.com/nba/article/2026-nba-playoff-picture-april-7-clinching-scenarios-and-stakes-for-postseason-contenders-173254110.html" class="read-more" target="_blank">Yahoo Sports →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card nba">
-      <span class="tag nba">NBA</span>
-      <h2>Lakers Clinch Playoff Berth with 50th Win; West Play-In Battle Heating Up</h2>
-      <p>Los Angeles secured its postseason spot last night, while the Suns and Clippers scramble for the 7-seed in the West. The Warriors (No. 10) face a steep climb against the Trail Blazers in the play-in.</p>
-      <p class="meta">CBS Sports · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.cbssports.com/nba/news/2026-nba-playoff-picture-standings-tiebreakers/" target="_blank">cbssports.com ↗</a></p>
-    </div>
+      <div class="card nba-card" data-cat="nba">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NBA · Warriors · Apr 7</div>
+          <h2>Curry Brothers Share the Floor as NBA Teammates: 'A Dream Come True'</h2>
+          <p>Steph Curry has returned to the Warriors in regular form, nearly knocking off the red-hot Rockets. Meanwhile, Luka Dončić is visiting Europe in an effort to expedite treatment for his hamstring strain ahead of playoffs.</p>
+          <div class="card-footer">
+            <span class="tag">Warriors</span>
+            <a href="https://www.nytimes.com/athletic/nba/" class="read-more" target="_blank">The Athletic →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card nba">
-      <span class="tag nba">NBA</span>
-      <h2>East Locks In: Pistons, Celtics, Knicks & Cavs All Set to Host First Round</h2>
-      <p>Detroit clinched the No. 1 seed in the East, with Boston, New York and Cleveland locking in home-court spots. The 76ers and Magic are battling for the 7-8 matchup in the play-in tournament.</p>
-      <p class="meta">Bleacher Report · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://bleacherreport.com/articles/25412402-latest-2026-nba-playoff-bracket-picture-play-race-scenarios-and-predictions" target="_blank">bleacherreport.com ↗</a></p>
-    </div>
-  </div>
+      <div class="card nba-card" data-cat="nba">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NBA · Projections · Apr 7</div>
+          <h2>If Playoffs Started Today: Projecting 8 First-Round Matchups in Season's Final Week</h2>
+          <p>The Nuggets and Rockets find themselves in the middle of a stacked West playoff picture. SGA and OKC remain red-hot entering the final stretch of the regular season.</p>
+          <div class="card-footer">
+            <span class="tag">Matchups</span>
+            <a href="https://www.nytimes.com/athletic/7175651/2026/04/06/nba-playoffs-matchups-predictions-final-week/" class="read-more" target="_blank">The Athletic →</a>
+          </div>
+        </div>
+      </div>
 
-  <!-- ═══ NFL ═══ -->
-  <div class="section-group" data-section="nfl">
-    <div class="section-header">
-      <h2>🏈 NFL</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="card nfl">
-      <span class="tag nfl">NFL</span>
-      <h2>Atlanta Falcons Unveil New Uniforms Today — Big Redesign Drops April 2</h2>
-      <p>The Falcons are set to reveal their brand-new look for the 2026 season on Thursday. Leaks have been trickling out and the reaction has been hot — the official unveil is happening today.</p>
-      <p class="meta">USA Today / Falcons Wire · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://thefalconswire-eu.usatoday.com/story/sports/nfl/falcons/2026/04/01/falcons-new-uniforms-release-info-leaks/89424134007/" target="_blank">usatoday.com ↗</a></p>
-    </div>
-
-    <div class="card nfl">
-      <span class="tag nfl">NFL</span>
-      <h2>Steelers Expect Aaron Rodgers' Decision on 2026 Season Before NFL Draft</h2>
-      <p>Pittsburgh Steelers president Art Rooney II says the organization expects to hear Rodgers' decision on whether he'll continue playing before the 2026 NFL Draft in late April.</p>
-      <p class="meta">NFL.com · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.nfl.com/news/all-news" target="_blank">nfl.com ↗</a></p>
-    </div>
-
-    <div class="card nfl">
-      <span class="tag nfl">NFL</span>
-      <h2>NFL Owners Approve Five New Rule Changes at Annual Meeting</h2>
-      <p>League owners voted on several rule updates at the annual spring meeting. Among the news: the Rams lobbied to play the 49ers in Australia as the NFL expands its international schedule.</p>
-      <p class="meta">Sports Illustrated · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.si.com/nfl" target="_blank">si.com ↗</a></p>
     </div>
   </div>
 
-  <!-- ═══ MLB ═══ -->
-  <div class="section-group" data-section="mlb">
-    <div class="section-header">
-      <h2>⚾ MLB</h2>
-      <div class="section-line"></div>
-    </div>
+  <!-- NFL -->
+  <div class="section" data-section="nfl">
+    <div class="section-title">🏈 NFL — Draft Season Heats Up</div>
+    <div class="cards-grid">
 
-    <div class="card mlb">
-      <span class="tag mlb">MLB</span>
-      <h2>Ohtani's Scoreless Streak Hits 22⅔ Innings — On-Base Streak at 36 Games</h2>
-      <p>Shohei Ohtani is doing things only Shohei Ohtani can do. MLB's longest active scoreless pitching streak and longest active on-base streak both belong to the same man, as the season rolls into April.</p>
-      <p class="meta">MLB.com · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.mlb.com/news" target="_blank">mlb.com ↗</a></p>
-    </div>
+      <div class="card nfl-card" data-cat="nfl">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NFL · Draft · Apr 7</div>
+          <h2>2026 NFL Mock Draft: Jets and Bills Level Up at WR; Cardinals Add a Star</h2>
+          <p>Nick Shook's first full mock of the 2026 NFL Draft projects Round 1 picks 1-32, with Jeremiyah Love and a pair of Buckeyes in the top 5. The draft begins April 23 in Nashville.</p>
+          <div class="card-footer">
+            <span class="tag">Draft</span>
+            <a href="https://www.nfl.com/news/all-news" class="read-more" target="_blank">NFL.com →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card mlb">
-      <span class="tag mlb">MLB</span>
-      <h2>Full MLB Slate Today: Probable Pitchers for Every Game — April 2</h2>
-      <p>A full day of baseball is on tap. Notable matchups feature contrasting styles — a ground-ball specialist with a 55% GB rate going up against a K-machine averaging over one strikeout per inning.</p>
-      <p class="meta">DraftKings Network · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://dknetwork.draftkings.com/2026/04/02/mlb-probable-pitchers-today-april-2-2026/" target="_blank">draftkings.com ↗</a></p>
-    </div>
+      <div class="card nfl-card" data-cat="nfl">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NFL · Free Agency · Apr 7</div>
+          <h2>Kyler Murray Headlines NFL Chatter; Raiders Smart Plan Emerges from Owners Meetings</h2>
+          <p>The Vikings are searching for a permanent GM as Rob Brzezinski serves as interim. The Seahawks need to bolster their backfield after losing Super Bowl MVP Kenneth Walker III in free agency.</p>
+          <div class="card-footer">
+            <span class="tag">Offseason</span>
+            <a href="https://www.nytimes.com/athletic/7174220/2026/04/06/nfl-news-updates-kyler-murray-vikings-fernando-mendoza-raiders/" class="read-more" target="_blank">The Athletic →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card mlb">
-      <span class="tag mlb">MLB</span>
-      <h2>Blue Jays' Kazuma Okamoto Shines in Debut, Slots in at Third Base for Bichette</h2>
-      <p>The new third baseman for AL-champion Toronto went 2-for-3 with a walk in his first MLB appearance during Opening week. Okamoto came over to essentially fill the void left by Bo Bichette's departure.</p>
-      <p class="meta">ESPN · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.espn.com/mlb/story/_/id/48251306/mlb-opening-day-2026-storylines-lineups-live-updates-takeaways-analysis" target="_blank">espn.com ↗</a></p>
-    </div>
-  </div>
+      <div class="card nfl-card" data-cat="nfl">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">NFL · Stadiums · Apr 7</div>
+          <h2>Chicago Bears to Choose Enclosed Stadium Site in Illinois or Indiana This Spring</h2>
+          <p>Team president Kevin Warren says the Bears expect a site decision late spring or early summer. The Tennessee Titans also made waves, signing four free agents with Hendon Hooker joining the QB room.</p>
+          <div class="card-footer">
+            <span class="tag">Stadium</span>
+            <a href="https://www.foxsports.com/nfl/news" class="read-more" target="_blank">FOX Sports →</a>
+          </div>
+        </div>
+      </div>
 
-  <!-- ═══ PGA ═══ -->
-  <div class="section-group" data-section="pga">
-    <div class="section-header">
-      <h2>⛳ PGA</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="card pga">
-      <span class="tag pga">PGA</span>
-      <h2>Valero Texas Open R1 Underway — Winner Earns Final Masters Invite</h2>
-      <p>The last spot in the 2026 Masters field is on the line at TPC San Antonio this week. Rickie Fowler, Billy Horschel, Tom Kim and Tony Finau are among the big names still needing a win to punch their Augusta ticket.</p>
-      <p class="meta">Sky Sports Golf · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.skysports.com/golf/news/12176/13526422/the-masters-2026-which-pga-tour-stars-need-valero-texas-open-win-to-secure-late-major-invite-to-augusta-national" target="_blank">skysports.com ↗</a></p>
-    </div>
-
-    <div class="card pga">
-      <span class="tag pga">PGA</span>
-      <h2>Rory McIlroy Returns as Masters Defending Champion; Scheffler is Favorite</h2>
-      <p>One week out from Augusta, Rory McIlroy will tee it up as defending champion after completing the career Grand Slam last April. Scottie Scheffler enters as the betting favorite to win The Masters for the third time.</p>
-      <p class="meta">Sky Sports · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://www.skysports.com/golf/live-blog/24512/13526779/the-masters-2026-build-up-live-latest-news-updates-highlights-ahead-of-rory-mcilroys-title-defence-at-augusta-national" target="_blank">skysports.com ↗</a></p>
-    </div>
-
-    <div class="card pga">
-      <span class="tag pga">PGA</span>
-      <h2>Five PGA Tour Pros Earn Late 2026 Masters Invitations via World Rankings</h2>
-      <p>A handful of players cracked the top-50 in the OWGR this week, officially stamping their place in the Augusta field. Among them: Brandon Knapp, who earned his second career Masters start based on his ranking of No. 42.</p>
-      <p class="meta">Golf.com · Apr 2, 2026 &nbsp;·&nbsp; <a href="https://golf.com/news/5-pga-tour-pros-earned-2026-masters-invites/" target="_blank">golf.com ↗</a></p>
     </div>
   </div>
 
-  <!-- ═══ JOBS ═══ -->
-  <div class="section-group" data-section="jobs">
-    <div class="section-header">
-      <h2>💼 Jobs</h2>
-      <div class="section-line"></div>
-    </div>
+  <!-- MLB -->
+  <div class="section" data-section="mlb">
+    <div class="section-title">⚾ MLB — Early Season Storylines</div>
+    <div class="cards-grid">
 
-    <div class="card jobs">
-      <span class="tag jobs">Jobs</span>
-      <h2>Senior Product Manager — AI & Sports Data @ Sportradar</h2>
-      <p>Lead AI-powered product strategy across live data operations, QA, and go-to-market. Cross-functional role bridging engineering and sports data intelligence. Remote-friendly.</p>
-      <p class="meta">Sportradar · Posted ~Apr 2026 &nbsp;·&nbsp; <a href="https://jobs.smartrecruiters.com/Sportradar/744000117269127-senior-product-manager-ai-sports-data-m-f-d-" target="_blank">Apply ↗</a></p>
-    </div>
+      <div class="card mlb-card" data-cat="mlb">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">MLB · Mets · Apr 7</div>
+          <h2>Mets Move Start Times for April 7–8 Games vs. D-backs Due to Cold, Wind at Citi Field</h2>
+          <p>Due to frigid temperatures and gusty winds forecast for New York, the Mets have shifted game times against the Diamondbacks to 4:10 PM ET for both Tuesday and Wednesday.</p>
+          <div class="card-footer">
+            <span class="tag">Schedule</span>
+            <a href="https://www.mlb.com/news/mets-move-start-times-for-april-7-8-2026-games-vs-d-backs" class="read-more" target="_blank">MLB.com →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card jobs">
-      <span class="tag jobs">Jobs</span>
-      <h2>Senior Frontend Engineer @ HumanSignal (Label Studio) — Remote</h2>
-      <p>Fully remote, open-source AI data labeling platform. React/TS stack, strong AI/LLM tooling mission. Multiple engineering roles open as the company scales its AI infrastructure product suite.</p>
-      <p class="meta">HumanSignal · Apr 2026 &nbsp;·&nbsp; <a href="https://boards.greenhouse.io/humansignal/jobs/4630367004" target="_blank">Apply ↗</a></p>
-    </div>
+      <div class="card mlb-card" data-cat="mlb">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">MLB · Injuries · Apr 7</div>
+          <h2>Juan Soto Has Calf Strain; Mookie Betts Exits Dodgers Game with Back Pain</h2>
+          <p>Two of the game's biggest stars are dealing with early-season health concerns. Betts left Sunday's game early, while Soto's injury status is being closely monitored by the Yankees' medical staff.</p>
+          <div class="card-footer">
+            <span class="tag">Injuries</span>
+            <a href="https://www.foxsports.com/stories/mlb/mlb-2026-buzz-injuries-news-trades-rumors" class="read-more" target="_blank">FOX Sports →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card jobs">
-      <span class="tag jobs">Jobs</span>
-      <h2>Senior AI Product Engineer (Fullstack) @ Arize AI — Remote US</h2>
-      <p>Build user-facing UI for an AI observability platform. React + TypeScript, LLM ecosystem focus, external-product oriented. Ideal for engineers who care deeply about AI product quality.</p>
-      <p class="meta">Arize AI · Apr 2026 &nbsp;·&nbsp; <a href="https://www.remotech.ai/jobs/senior-ai-product-engineer-fullstack" target="_blank">Apply ↗</a></p>
-    </div>
+      <div class="card mlb-card" data-cat="mlb">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">MLB · Prospects · Apr 7</div>
+          <h2>MLB's #1 Overall Prospect Griffin Called Up; Blue Jays Debut Marks New Era</h2>
+          <p>Pittsburgh's Griffin — the No. 1 overall prospect per MLB Pipeline — had a scorching Triple-A debut with 7-for-16 across 5 games. Gil rejoins Yankees in mid-April after missing the starting rotation out of spring training.</p>
+          <div class="card-footer">
+            <span class="tag">Prospects</span>
+            <a href="https://www.foxsports.com/stories/mlb/mlb-2026-buzz-injuries-news-trades-rumors" class="read-more" target="_blank">FOX Sports →</a>
+          </div>
+        </div>
+      </div>
 
-    <div class="card jobs">
-      <span class="tag jobs">Jobs</span>
-      <h2>Product Manager — AI-Accelerated Development in Sports (Contract)</h2>
-      <p>Hourly consulting rate DOE. Drive AI product development at the intersection of sports analytics and automation. Strong profile fit for a senior PM with sports data and AI experience.</p>
-      <p class="meta">ZipRecruiter · Apr 2026 &nbsp;·&nbsp; <a href="https://www.ziprecruiter.com/Jobs/Sports-Ai-Software" target="_blank">Browse ↗</a></p>
-    </div>
-
-    <div class="card jobs">
-      <span class="tag jobs">Jobs</span>
-      <h2>Frontend Engineer — Sports & AI Data Platform @ BuiltIn</h2>
-      <p>Design and build UIs for a sports intelligence platform at the intersection of AI, BI and sports data. Architecture-level frontend work. Listed as actively hiring on BuiltIn's tech job board.</p>
-      <p class="meta">Built In · Apr 2026 &nbsp;·&nbsp; <a href="https://builtin.com/jobs/dev-engineering/sports" target="_blank">Browse ↗</a></p>
     </div>
   </div>
 
-</div><!-- /grid -->
+  <!-- PGA -->
+  <div class="section" data-section="pga">
+    <div class="section-title">⛳ PGA — Masters Week Begins at Augusta</div>
+    <div class="cards-grid">
+
+      <div class="card pga-card" data-cat="pga">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">PGA · Masters · Apr 7</div>
+          <h2>2026 Masters Champions Dinner Tonight: Defending Champ Rory McIlroy Hosts at Augusta</h2>
+          <p>The annual Champions Dinner is set for Tuesday evening at Augusta National. Rory McIlroy, who completed the Grand Slam last year, is the host. First round tee times begin Thursday morning.</p>
+          <div class="card-footer">
+            <span class="tag">Masters</span>
+            <a href="https://www.golfchannel.com/pga-tour/news/masters-2026-first-round-leader-predictions-best-bets" class="read-more" target="_blank">Golf Channel →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pga-card" data-cat="pga">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">PGA · Masters · Apr 7</div>
+          <h2>Scheffler Chases Third Green Jacket; McIlroy Looks to Be First Back-to-Back Champ Since Tiger</h2>
+          <p>Scottie Scheffler leads favorites as he hunts a historic third green jacket. Rory McIlroy would be the first back-to-back Masters champion since Tiger Woods if he successfully defends his title this week.</p>
+          <div class="card-footer">
+            <span class="tag">Favorites</span>
+            <a href="https://www.golfchannel.com/news/masters-2026-odds-betting-favorites-winner-predictions-longshot-picks-first-round-leader-augusta-national" class="read-more" target="_blank">Golf Channel →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pga-card" data-cat="pga">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">PGA · Masters · Apr 7</div>
+          <h2>Collin Morikawa Confirmed for Masters Despite Back Concerns; Tiger +20000 to Win Sixth Jacket</h2>
+          <p>Morikawa, who withdrew from last week's Valero Texas Open, confirmed Monday his back was "feeling better" and he will compete at Augusta. Tiger Woods remains a wild card at 200-1 odds.</p>
+          <div class="card-footer">
+            <span class="tag">Field</span>
+            <a href="https://www.golfchannel.com/pga-tour" class="read-more" target="_blank">Golf Channel →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="section" data-section="jobs">
+    <div class="section-title">💼 Jobs — Roles Matching Dawn's Profile</div>
+    <div class="cards-grid">
+
+      <div class="card jobs-card" data-cat="jobs">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">Jobs · Sports Tech · Remote</div>
+          <h2>AI Program & Product Manager — Sports Tech Company (Remote)</h2>
+          <p>Seeking a seasoned PM to lead AI product strategy at the intersection of sports data and machine learning. Ideal for someone with 15+ yrs experience building data-driven consumer products. Strong AI roadmap ownership component.</p>
+          <div class="card-footer">
+            <span class="tag">PM · AI · Sports</span>
+            <a href="https://jobsinsports0.wordpress.com/2026/04/03/4-4-2026-full-time-internships/" class="read-more" target="_blank">Jobs in Sports →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card jobs-card" data-cat="jobs">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">Jobs · Frontend · Remote</div>
+          <h2>Sr/Staff Frontend Engineer — Sports Intelligence Platform (Remote)</h2>
+          <p>Develop new web applications, enhance UI experiences, and architect scalable solutions. Stack: React, TypeScript, Next.js, APIs. Looking for strong UI craft + experience integrating AI features into consumer-facing products.</p>
+          <div class="card-footer">
+            <span class="tag">Frontend · React · AI</span>
+            <a href="https://builtin.com/jobs/dev-engineering/front-end" class="read-more" target="_blank">Built In →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card jobs-card" data-cat="jobs">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">Jobs · Product · Remote</div>
+          <h2>Senior Product Manager, AI Access & Workflows — Remote-First SaaS</h2>
+          <p>Lead product strategy for AI enhancements across cloud infrastructure and SaaS tooling. Collaborate with engineering to define user requirements and oversee full product dev cycles. Ideal for senior IC or player-coach PM.</p>
+          <div class="card-footer">
+            <span class="tag">PM · SaaS · AI</span>
+            <a href="https://builtin.com/jobs/remote/product/artificial-intelligence" class="read-more" target="_blank">Built In →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card jobs-card" data-cat="jobs">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">Jobs · Sports Data · Remote</div>
+          <h2>Engineering Manager — Crypto & Sports Fan Products at Underdog Fantasy (Remote)</h2>
+          <p>Define a new product frontier at Underdog by leading the crypto initiative, managing engineering teams, and building scalable features for sports fans. Strong overlap with sports data + product depth required.</p>
+          <div class="card-footer">
+            <span class="tag">Eng Mgr · Sports · Data</span>
+            <a href="https://builtin.com/jobs/remote/sports" class="read-more" target="_blank">Built In →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card jobs-card" data-cat="jobs">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-meta">Jobs · Frontend · NYC/Remote</div>
+          <h2>Senior Frontend Engineer — AI Product Integration at Zapier (Remote / NYC)</h2>
+          <p>Design and develop complex UIs, lead feature delivery end-to-end, and integrate AI deeply into consumer products. Collaborative, cross-functional environment. TypeScript, React, accessibility-focused engineering culture.</p>
+          <div class="card-footer">
+            <span class="tag">Frontend · AI · React</span>
+            <a href="https://www.builtinnyc.com/jobs/remote/dev-engineering/front-end" class="read-more" target="_blank">Built In NYC →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
 
 <script>
-// Filter logic
-const btns = document.querySelectorAll('.filter-btn[data-filter]');
-const groups = document.querySelectorAll('.section-group[data-section]');
+  // Filter logic
+  const btns = document.querySelectorAll('.filter-btn[data-cat]');
+  const sections = document.querySelectorAll('.section[data-section]');
+  const cards = document.querySelectorAll('.card[data-cat]');
 
-btns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    groups.forEach(g => {
-      if (f === 'all' || g.dataset.section === f) {
-        g.classList.remove('hidden');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      if (cat === 'all') {
+        sections.forEach(s => s.classList.remove('hidden'));
+        cards.forEach(c => c.classList.remove('hidden'));
       } else {
-        g.classList.add('hidden');
+        sections.forEach(s => {
+          s.classList.toggle('hidden', s.dataset.section !== cat);
+        });
+        cards.forEach(c => {
+          c.classList.toggle('hidden', c.dataset.cat !== cat);
+        });
       }
     });
   });
-});
 
-// Copy-headline buttons (injected per spec)
-document.querySelectorAll('.card h2').forEach(h2=>{const w=document.createElement('div');w.className='card-title-row';h2.parentNode.insertBefore(w,h2);w.appendChild(h2);const b=document.createElement('button');b.className='copy-btn';b.title='Copy headline';b.innerHTML='⎘';b.addEventListener('click',e=>{e.stopPropagation();navigator.clipboard.writeText(h2.textContent.trim()).then(()=>{b.innerHTML='✓';b.classList.add('copied');setTimeout(()=>{b.innerHTML='⎘';b.classList.remove('copied');},1800);});});w.appendChild(b);});
+  // Copy headline buttons (injected)
+  document.querySelectorAll('.card h2').forEach(h2=>{const w=document.createElement('div');w.className='card-title-row';h2.parentNode.insertBefore(w,h2);w.appendChild(h2);const b=document.createElement('button');b.className='copy-btn';b.title='Copy headline';b.innerHTML='⎘';b.addEventListener('click',e=>{e.stopPropagation();navigator.clipboard.writeText(h2.textContent.trim()).then(()=>{b.innerHTML='✓';b.classList.add('copied');setTimeout(()=>{b.innerHTML='⎘';b.classList.remove('copied');},1800);});});w.appendChild(b);});
 </script>
+
 </body>
 </html>
