@@ -1,542 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dawn's Sports Dashboard — April 26, 2026</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morning Sports Dashboard — May 2, 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: #0d0f14;
-    color: #e2e8f0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    min-height: 100vh;
-    padding: 0 0 60px;
-  }
+    body {
+      background: #0f1117;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
 
-  header {
-    text-align: center;
-    padding: 40px 20px 24px;
-    background: linear-gradient(180deg, #13161e 0%, transparent 100%);
-    border-bottom: 1px solid #1e2332;
-  }
+    header {
+      text-align: center;
+      padding: 40px 20px 24px;
+      border-bottom: 1px solid #1e2535;
+    }
 
-  header h1 {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f8fafc;
+    }
 
-  header p {
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: #64748b;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
+    header p {
+      margin-top: 6px;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
 
-  .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    padding: 20px 16px;
-    position: sticky;
-    top: 0;
-    background: rgba(13, 15, 20, 0.92);
-    backdrop-filter: blur(12px);
-    z-index: 100;
-    border-bottom: 1px solid #1e2332;
-  }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 20px 0;
+    }
 
-  .filter-btn {
-    padding: 7px 18px;
-    border-radius: 100px;
-    border: 1px solid #2d3347;
-    background: #181c28;
-    color: #94a3b8;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.18s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    display: inline-block;
-  }
+    .filter-btn {
+      background: #1e2535;
+      color: #94a3b8;
+      border: 1px solid #2d3748;
+      border-radius: 20px;
+      padding: 6px 18px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
 
-  .filter-btn:hover, .filter-btn.active {
-    background: #252a3d;
-    color: #e2e8f0;
-    border-color: #3d4561;
-  }
+    .filter-btn:hover { background: #2d3748; color: #e2e8f0; }
+    .filter-btn.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
 
-  .filter-btn.active { box-shadow: 0 0 0 2px rgba(148,163,184,0.2); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
 
-  .filter-btn[data-cat="NBA"].active  { border-color: #f97316; color: #fb923c; box-shadow: 0 0 0 2px rgba(249,115,22,0.15); }
-  .filter-btn[data-cat="NFL"].active  { border-color: #22c55e; color: #4ade80; box-shadow: 0 0 0 2px rgba(34,197,94,0.15); }
-  .filter-btn[data-cat="MLB"].active  { border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
-  .filter-btn[data-cat="PGA"].active  { border-color: #a855f7; color: #c084fc; box-shadow: 0 0 0 2px rgba(168,85,247,0.15); }
-  .filter-btn[data-cat="Jobs"].active { border-color: #ec4899; color: #f472b6; box-shadow: 0 0 0 2px rgba(236,72,153,0.15); }
+    .card {
+      background: #161b27;
+      border: 1px solid #1e2535;
+      border-radius: 12px;
+      padding: 18px 20px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 18px;
-    max-width: 1280px;
-    margin: 28px auto 0;
-    padding: 0 20px;
-  }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
 
-  .card {
-    background: #13161e;
-    border: 1px solid #1e2332;
-    border-radius: 14px;
-    overflow: hidden;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-    position: relative;
-  }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
 
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-  }
+    .card.nba::before   { background: #c9082a; }
+    .card.nfl::before   { background: #013369; background: linear-gradient(90deg,#013369,#d50a0a); }
+    .card.mlb::before   { background: #002d72; background: linear-gradient(90deg,#002d72,#d50a0a); }
+    .card.pga::before   { background: #1a6b37; }
+    .card.jobs::before  { background: #7c3aed; }
 
-  .card-accent {
-    height: 4px;
-    width: 100%;
-  }
+    .card-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
 
-  .card[data-cat="NBA"] .card-accent  { background: linear-gradient(90deg, #f97316, #ea580c); }
-  .card[data-cat="NFL"] .card-accent  { background: linear-gradient(90deg, #22c55e, #16a34a); }
-  .card[data-cat="MLB"] .card-accent  { background: linear-gradient(90deg, #3b82f6, #2563eb); }
-  .card[data-cat="PGA"] .card-accent  { background: linear-gradient(90deg, #a855f7, #9333ea); }
-  .card[data-cat="Jobs"] .card-accent { background: linear-gradient(90deg, #ec4899, #db2777); }
+    .nba   .card-badge { background: rgba(201,8,42,0.2);   color: #f87171; }
+    .nfl   .card-badge { background: rgba(213,10,10,0.2);  color: #fca5a5; }
+    .mlb   .card-badge { background: rgba(0,45,114,0.3);   color: #93c5fd; }
+    .pga   .card-badge { background: rgba(26,107,55,0.25); color: #6ee7b7; }
+    .jobs  .card-badge { background: rgba(124,58,237,0.2); color: #c4b5fd; }
 
-  .card-body {
-    padding: 18px 18px 16px;
-  }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
 
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #f1f5f9;
+      flex: 1;
+    }
 
-  .badge {
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 100px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
+    .copy-btn {
+      background: none;
+      border: 1px solid #2d3748;
+      border-radius: 6px;
+      color: #475569;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 2px 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.15s;
+    }
 
-  .badge-NBA  { background: rgba(249,115,22,0.15);  color: #fb923c; }
-  .badge-NFL  { background: rgba(34,197,94,0.15);   color: #4ade80; }
-  .badge-MLB  { background: rgba(59,130,246,0.15);  color: #60a5fa; }
-  .badge-PGA  { background: rgba(168,85,247,0.15);  color: #c084fc; }
-  .badge-Jobs { background: rgba(236,72,153,0.15);  color: #f472b6; }
+    .copy-btn:hover { background: #2d3748; color: #94a3b8; }
+    .copy-btn.copied { background: #166534; border-color: #166534; color: #4ade80; }
 
-  .card-time {
-    font-size: 0.72rem;
-    color: #475569;
-  }
+    .card p {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
 
-  .card-title-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #3b82f6;
+      text-decoration: none;
+    }
 
-  .card h2 {
-    flex: 1;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #e2e8f0;
-  }
+    .card a:hover { text-decoration: underline; }
 
-  .copy-btn {
-    flex-shrink: 0;
-    margin-top: 2px;
-    background: none;
-    border: 1px solid #2d3347;
-    border-radius: 6px;
-    color: #475569;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 2px 6px;
-    transition: all 0.15s ease;
-    line-height: 1.4;
-  }
+    .card .meta {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: #475569;
+    }
 
-  .copy-btn:hover { border-color: #64748b; color: #94a3b8; }
-  .copy-btn.copied { border-color: #22c55e; color: #22c55e; }
+    .section-label {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding: 0 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #475569;
+    }
 
-  .card p {
-    font-size: 0.84rem;
-    color: #64748b;
-    line-height: 1.55;
-  }
-
-  .card a.card-link {
-    display: inline-block;
-    margin-top: 12px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #3b82f6;
-    text-decoration: none;
-    letter-spacing: 0.3px;
-  }
-
-  .card a.card-link:hover { text-decoration: underline; }
-
-  .section-header {
-    max-width: 1280px;
-    margin: 36px auto 0;
-    padding: 0 20px 8px;
-    border-bottom: 1px solid #1e2332;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-header h3 {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #475569;
-  }
-
-  .section-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .dot-NBA  { background: #f97316; }
-  .dot-NFL  { background: #22c55e; }
-  .dot-MLB  { background: #3b82f6; }
-  .dot-PGA  { background: #a855f7; }
-  .dot-Jobs { background: #ec4899; }
-
-  .hidden { display: none !important; }
-</style>
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
 
 <header>
-  <h1>⚡ Dawn's Sports Dashboard</h1>
-  <p>Sunday, April 26, 2026 &nbsp;·&nbsp; Live Headlines</p>
+  <h1>🏆 Morning Sports Dashboard</h1>
+  <p>Saturday, May 2, 2026 · Updated 7:00 AM ET</p>
 </header>
 
 <div class="filter-bar">
-  <button class="filter-btn active" data-cat="All">All</button>
-  <button class="filter-btn" data-cat="NBA">🏀 NBA</button>
-  <button class="filter-btn" data-cat="NFL">🏈 NFL</button>
-  <button class="filter-btn" data-cat="MLB">⚾ MLB</button>
-  <button class="filter-btn" data-cat="PGA">⛳ PGA</button>
-  <button class="filter-btn" data-cat="Jobs">💼 Jobs</button>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="nba">🏀 NBA</button>
+  <button class="filter-btn" data-filter="nfl">🏈 NFL</button>
+  <button class="filter-btn" data-filter="mlb">⚾ MLB</button>
+  <button class="filter-btn" data-filter="pga">⛳ PGA</button>
+  <button class="filter-btn" data-filter="jobs">💼 Jobs</button>
   <a href="/research" class="filter-btn" style="text-decoration:none;">🔬 Research</a>
 </div>
 
 <!-- NBA -->
-<div class="section-header" data-section="NBA">
-  <div class="section-dot dot-NBA"></div>
-  <h3>NBA Playoffs</h3>
-</div>
+<div class="section-label" data-section="nba">🏀 NBA Playoffs</div>
 <div class="grid">
 
-  <div class="card" data-cat="NBA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NBA">NBA</span>
-        <span class="card-time">Today · 6 hrs ago</span>
-      </div>
-      <h2>Wolves, Magic, Thunder and Knicks Win in First-Round Playoff Action</h2>
-      <p>Four teams advanced their playoff positioning on Saturday, with OKC continuing to roll and the Knicks surviving a late scare. Full live updates from Sunday's slate now underway.</p>
-      <a class="card-link" href="https://www.nba.com/news/live-updates-2026-nba-playoffs-r1-pistons-magic-starts-the-day-on-peacock" target="_blank">Read on NBA.com →</a>
-    </div>
+  <div class="card nba" data-category="nba">
+    <span class="card-badge">NBA · Playoffs</span>
+    <h2>Lakers Eliminate Rockets in Game 6, Set Up Thunder Showdown in West Semis</h2>
+    <p>LeBron James drops 28 points as the Lakers close out Houston 98–78, advancing to face OKC in the Western Conference Semifinals. L.A. wins the series 4–2.</p>
+    <a href="https://www.nba.com/news/live-updates-2026-nba-playoffs-r1-prime-triple-header-featuring-pistons-magic-cavs-raptors-lakers-rockets-in-game-6" target="_blank">NBA.com →</a>
+    <div class="meta">Published 5 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="NBA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NBA">NBA</span>
-        <span class="card-time">Today · 8 hrs ago</span>
-      </div>
-      <h2>Shai Gilgeous-Alexander's Mid-Range Madness Pushes Thunder to Brink of Sweep vs. Suns</h2>
-      <p>SGA's Game 3 dominance cemented OKC as the West's most dangerous team. Four takeaways from a performance that's already generating MVP-level chatter headed into the Conference Semis.</p>
-      <a class="card-link" href="https://www.nba.com/news/suns-thunder-2026-playoffs-game-3-takeaways" target="_blank">Read on NBA.com →</a>
-    </div>
+  <div class="card nba" data-category="nba">
+    <span class="card-badge">NBA · Playoffs</span>
+    <h2>Pistons Rally From Down 24 to Force Game 7 vs. Magic — Largest Comeback by Road Elimination Team</h2>
+    <p>Detroit mounts a historic second-half charge, erasing a 24-point deficit on the road facing elimination. Pistons–Magic Game 7 is set for Sunday.</p>
+    <a href="https://www.aljazeera.com/sports/2026/5/2/pistons-and-raptors-survive-while-la-lakers-progress-in-nba-playoffs" target="_blank">Al Jazeera →</a>
+    <div class="meta">Published 5 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="NBA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NBA">NBA</span>
-        <span class="card-time">Today · 2 hrs ago</span>
-      </div>
-      <h2>NBA Playoffs Sunday Schedule: Pistons-Magic Game 3, Sixers-Pacers, Full TV Guide</h2>
-      <p>Cade Cunningham and Detroit look to reclaim homecourt against Orlando, while Tyrese Maxey leads Philly in a must-win. Full odds, times, and streaming details for April 26's action.</p>
-      <a class="card-link" href="https://www.usatoday.com/story/sports/nba/2026/04/26/nba-games-today-schedule-times-tv-april-26/89807499007/" target="_blank">Read on USA Today →</a>
-    </div>
+  <div class="card nba" data-category="nba">
+    <span class="card-badge">NBA · Playoffs</span>
+    <h2>Raptors Win on Wild Buzzer Shot to Force Game 7; Celtics–76ers Also Headed to Decider</h2>
+    <p>Toronto survives on a wild game-winning shot to even the Cavs series 3–3. Meanwhile, the 76ers push the Celtics to a Game 7 Sunday at 7:30 PM ET on NBC.</p>
+    <a href="https://www.nytimes.com/athletic/7247602/2026/05/02/lakers-rockets-game-6-takeaways-2026-nba-playoffs/" target="_blank">The Athletic →</a>
+    <div class="meta">Published 6 hours ago · May 2, 2026</div>
   </div>
 
 </div>
 
 <!-- NFL -->
-<div class="section-header" data-section="NFL">
-  <div class="section-dot dot-NFL"></div>
-  <h3>NFL Draft Wrap</h3>
-</div>
+<div class="section-label" data-section="nfl">🏈 NFL</div>
 <div class="grid">
 
-  <div class="card" data-cat="NFL">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NFL">NFL</span>
-        <span class="card-time">Today · 5 hrs ago</span>
-      </div>
-      <h2>2026 NFL Draft Final Grades: CBS Sports Scores All 32 Teams — Giants Shine, Steelers Load Up</h2>
-      <p>The draft is in the books from Pittsburgh. CBS Sports graded every pick across seven rounds — NY Giants earned top marks in the NFC while multiple AFC teams made bold Day 2 swings.</p>
-      <a class="card-link" href="https://www.cbssports.com/nfl/draft/news/nfl-draft-2026-team-grades/" target="_blank">Read on CBS Sports →</a>
-    </div>
+  <div class="card nfl" data-category="nfl">
+    <span class="card-badge">NFL · Draft</span>
+    <h2>2026 NFL Draft Grades: Chiefs, Browns, Jets Crush It — Steelers, Rams, 49ers Raise Questions</h2>
+    <p>CBS Sports ranks all 32 draft classes with grades and best/worst picks. Kansas City and Cleveland lead the way, while San Francisco's selections draw skepticism from analysts.</p>
+    <a href="https://www.cbssports.com/nfl/draft/news/grading-each-teams-2026-nfl-draft-class/" target="_blank">CBS Sports →</a>
+    <div class="meta">Published 19 hours ago · May 1–2, 2026</div>
   </div>
 
-  <div class="card" data-cat="NFL">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NFL">NFL</span>
-        <span class="card-time">Today · 7 hrs ago</span>
-      </div>
-      <h2>NFC Draft Grades: Giants Earn High Marks, 49ers Get an F — Full Team-by-Team Breakdown</h2>
-      <p>NBC Sports breaks down every NFC draft class with Pick 3 (RB Jeremiyah Love, Notre Dame to Giants) as a standout. San Francisco's class drew the harshest criticism from analysts.</p>
-      <a class="card-link" href="https://www.nbcsports.com/fantasy/football/news/2026-nfl-draft-grades-for-all-nfc-teams-giants-earn-high-marks-49ers-get-an-f" target="_blank">Read on NBC Sports →</a>
-    </div>
+  <div class="card nfl" data-category="nfl">
+    <span class="card-badge">NFL · Power Rankings</span>
+    <h2>Post-Draft Power Rankings: Chiefs Still Rising, 49ers Keep Reaching on Picks</h2>
+    <p>NFL.com's Eric Edholm runs through all 32 teams following the 2026 draft. Kansas City continues to stack their roster while San Francisco's draft strategy raises eyebrows.</p>
+    <a href="https://www.nfl.com/news/nfl-power-rankings-post-2026-nfl-draft" target="_blank">NFL.com →</a>
+    <div class="meta">Published 18 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="NFL">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-NFL">NFL</span>
-        <span class="card-time">Today · 9 hrs ago</span>
-      </div>
-      <h2>UDFA Tracker: Post-Draft Free Agent Signings Flood In as Teams Fill Roster Gaps</h2>
-      <p>Hundreds of undrafted prospects are finding homes. CBS Sports tracks every UDFA deal by team in real time — from Bryan Thomas Jr. (EDGE, South Carolina) to Buffalo's WR additions.</p>
-      <a class="card-link" href="https://www.cbssports.com/nfl/draft/news/2026-nfl-udfa-tracker-signings-by-team/" target="_blank">Read on CBS Sports →</a>
-    </div>
+  <div class="card nfl" data-category="nfl">
+    <span class="card-badge">NFL · Schedule</span>
+    <h2>2026 NFL Schedule Release Coming Mid-May: Jaguars to Play Back-to-Back Home Games in London — an NFL First</h2>
+    <p>The NFL schedule is expected around May 13–14. Among known highlights: Jacksonville becomes the first team in league history to host consecutive international home games in London.</p>
+    <a href="https://www.cbssports.com/nfl/news/2026-nfl-schedule-release-date/" target="_blank">CBS Sports →</a>
+    <div class="meta">Published 19 hours ago · May 1–2, 2026</div>
   </div>
 
 </div>
 
 <!-- MLB -->
-<div class="section-header" data-section="MLB">
-  <div class="section-dot dot-MLB"></div>
-  <h3>MLB</h3>
-</div>
+<div class="section-label" data-section="mlb">⚾ MLB</div>
 <div class="grid">
 
-  <div class="card" data-cat="MLB">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-MLB">MLB</span>
-        <span class="card-time">Today · 28 min ago</span>
-      </div>
-      <h2>Phillies Break Skid, Red Sox Win 17-1 Before Alex Cora's Exit as Boston Manager</h2>
-      <p>A chaotic Saturday: Philly ends a losing streak while Baltimore got torched 17-1 by Boston — a blowout that turned out to be Alex Cora's last game as Red Sox skipper before a stunning departure.</p>
-      <a class="card-link" href="https://newbaseballmedia.com/2026-mlb-daily-recap-april-25/" target="_blank">Read full recap →</a>
-    </div>
+  <div class="card mlb" data-category="mlb">
+    <span class="card-badge">MLB · Game Recap</span>
+    <h2>Murakami Hits Majors-Leading 13th Homer, White Sox Rout Padres 8–2 for 4th Straight Win</h2>
+    <p>Munetaka Murakami crushed a 413-ft bomb at 111.1 mph exit velocity in the second inning. Colson Montgomery added his 9th HR as Chicago continues its surprising early run.</p>
+    <a href="https://apnews.com/article/white-sox-padres-score-b2b42fe0d013946e87143bbda137e1b5" target="_blank">AP News →</a>
+    <div class="meta">Published 2–6 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="MLB">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-MLB">MLB</span>
-        <span class="card-time">Today · Game Day</span>
-      </div>
-      <h2>Rockies at Mets Today at Citi Field — Colorado Tries to Spoil New York's Home Stand</h2>
-      <p>Sunday afternoon baseball at Citi Field as the Mets look to maintain momentum. Colorado brings one of the league's worst road records into Flushing, NY for the series finale.</p>
-      <a class="card-link" href="https://sportsdata.usatoday.com/baseball/mlb/summary/2977508" target="_blank">Game details →</a>
-    </div>
+  <div class="card mlb" data-category="mlb">
+    <span class="card-badge">MLB · Standings</span>
+    <h2>Playoff Picture at One Month: Guardians Would Meet Tigers in ALDS if Season Ended Today</h2>
+    <p>MLB.com maps out the current postseason bracket one month in. Cleveland leads the AL Central again, set for a rematch with Detroit after erasing a historic 15.5-game deficit last year.</p>
+    <a href="https://www.mlb.com/news/mlb-playoff-picture-one-month-into-2026-season" target="_blank">MLB.com →</a>
+    <div class="meta">Published 1 day ago · May 1, 2026</div>
   </div>
 
-  <div class="card" data-cat="MLB">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-MLB">MLB</span>
-        <span class="card-time">Today · Game Day</span>
-      </div>
-      <h2>Cubs at Dodgers Today at Dodger Stadium — Sunday Afternoon Showcase on National TV</h2>
-      <p>LA hosts Chicago in one of today's marquee matchups at Chavez Ravine. The Dodgers look to extend their home dominance while the Cubs fight to stay relevant in the NL Central race.</p>
-      <a class="card-link" href="https://sportsdata.usatoday.com/baseball/mlb/summary/2941784" target="_blank">Game details →</a>
-    </div>
+  <div class="card mlb" data-category="mlb">
+    <span class="card-badge">MLB · Analysis</span>
+    <h2>Five Burning Questions as the Calendar Flips to May: Who's Real, Who's Fading?</h2>
+    <p>CBS Sports' Mike Axisa digs into which early surprises are for real and which contenders need to flip a switch as the season hits its first checkpoint at 30+ games.</p>
+    <a href="https://www.cbssports.com/mlb/" target="_blank">CBS Sports →</a>
+    <div class="meta">Published 14 hours ago · May 2, 2026</div>
   </div>
 
 </div>
 
 <!-- PGA -->
-<div class="section-header" data-section="PGA">
-  <div class="section-dot dot-PGA"></div>
-  <h3>PGA Tour</h3>
-</div>
+<div class="section-label" data-section="pga">⛳ PGA Tour</div>
 <div class="grid">
 
-  <div class="card" data-cat="PGA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-PGA">PGA</span>
-        <span class="card-time">Today · Final Round Live</span>
-      </div>
-      <h2>Zurich Classic of New Orleans — Final Round Underway at TPC Louisiana ($9.5M Purse)</h2>
-      <p>The week-long team event in Avondale, LA reaches its conclusion today. Top duos battle for $9.5 million in the PGA Tour's only team format event, with drama building on the back nine.</p>
-      <a class="card-link" href="https://www.cbssports.com/golf/leaderboard/pga-tour/31000088/zurich-classic-of-new-orleans/" target="_blank">Live Leaderboard →</a>
-    </div>
+  <div class="card pga" data-category="pga">
+    <span class="card-badge">PGA · Cadillac Championship</span>
+    <h2>Cameron Young Leads Cadillac Championship by 5 After R2 at Trump National Doral</h2>
+    <p>Young surged to the top of the leaderboard in Round 2 of the signature no-cut event at the Blue Monster. Round 3 tees off today. Golf Channel has coverage.</p>
+    <a href="https://golfweek.usatoday.com/story/sports/golf/pga/2026/05/01/2026-cadillac-championship-leaderboard-second-round-scores-tee-times/89824241007/" target="_blank">Golfweek →</a>
+    <div class="meta">Published 11 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="PGA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-PGA">PGA</span>
-        <span class="card-time">Today · 10 hrs ago</span>
-      </div>
-      <h2>PGA's New Calendar Claims Its First Victim as Rolapp Reshapes Tour Scheduling</h2>
-      <p>Commissioner Brian Rolapp's restructured PGA Tour calendar is already creating controversy — a marquee event falls victim to the new condensed slate as players push back on the compressed schedule.</p>
-      <a class="card-link" href="https://www.tennisworldusa.org/other_news/golf/166169/the-pga-s-new-calendar-claims-its-first-victim/" target="_blank">Read more →</a>
-    </div>
+  <div class="card pga" data-category="pga">
+    <span class="card-badge">PGA · Cadillac Championship</span>
+    <h2>Jordan Spieth Fires Opening 65 at Doral, Feels Encouraged by Return to 2016 Form</h2>
+    <p>Spieth posted a 7-under 65 in Round 1 at Trump National Doral. "This course suits my game," he said, noting his ball-striking is as sharp as it's been in years.</p>
+    <a href="https://www.golfchannel.com/watch/pga-tour/pga-tour-highlights-2026-cadillac-championship-round-2" target="_blank">Golf Channel →</a>
+    <div class="meta">Published 9 hours ago · May 2, 2026</div>
   </div>
 
-  <div class="card" data-cat="PGA">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-PGA">PGA</span>
-        <span class="card-time">Today · Upcoming</span>
-      </div>
-      <h2>Miami Championship Next Up: PGA Tour Heads to Miami Beach Golf Club Starting Monday</h2>
-      <p>After New Orleans wraps, the Tour moves to the Miami Beach Golf Club (April 27–May 3) for the Miami Championship — one of the new marquee events on Rolapp's revamped Tour calendar.</p>
-      <a class="card-link" href="https://www.pgatour.com/news" target="_blank">PGA Tour News →</a>
-    </div>
+  <div class="card pga" data-category="pga">
+    <span class="card-badge">PGA · Heritage</span>
+    <h2>Matt Fitzpatrick Reflects on Winning the 2026 RBC Heritage: "Words Don't Do It Justice"</h2>
+    <p>Fitzpatrick won at Hilton Head in a venue that holds deep personal meaning. The Englishman said the win ranks among the most emotional of his career.</p>
+    <a href="https://www.nbcsports.com/watch/golf/pga-tour/pga-tour-highlights-2026-cadillac-championship-round-2" target="_blank">NBC Sports →</a>
+    <div class="meta">Published 11 hours ago · May 2, 2026</div>
   </div>
 
 </div>
 
 <!-- JOBS -->
-<div class="section-header" data-section="Jobs">
-  <div class="section-dot dot-Jobs"></div>
-  <h3>Jobs — For Dawn</h3>
-</div>
+<div class="section-label" data-section="jobs">💼 Jobs for Dawn</div>
 <div class="grid">
 
-  <div class="card" data-cat="Jobs">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-Jobs">Jobs</span>
-        <span class="card-time">Remote · Sports Media</span>
-      </div>
-      <h2>The Athletic — Product Manager (Remote)</h2>
-      <p>Lead cross-functional initiatives across engineering, design, analytics, and newsroom teams. Ideal for someone who lives at the intersection of sports content and product strategy. 🎯 Strong match.</p>
-      <a class="card-link" href="https://jobs.lever.co/theathletic/a0ca8793-e961-4e96-b103-2c4187c84225" target="_blank">Apply on Lever →</a>
-    </div>
+  <div class="card jobs" data-category="jobs">
+    <span class="card-badge">Jobs · Staff Engineer</span>
+    <h2>Staff Frontend Engineer — Lead AI-Native Product Experiences (Remote, Sports/Tech)</h2>
+    <p>Lead frontend architecture, drive design system evolution, migrate legacy to modern stack, and deliver AI-native product experiences. Requires senior engineering leadership. Stack: GraphQL, React, AWS, Kubernetes.</p>
+    <a href="https://builtin.com/jobs/dev-engineering/front-end" target="_blank">View on Built In →</a>
+    <div class="meta">Active posting · via Built In</div>
   </div>
 
-  <div class="card" data-cat="Jobs">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-Jobs">Jobs</span>
-        <span class="card-time">NYC / Remote · Sports Tech</span>
-      </div>
-      <h2>Novig — Senior Frontend Engineer (React/React Native, Sports Marketplace)</h2>
-      <p>Build and ship features for a sports betting marketplace. React/React Native, cross-platform UI, and close collaboration with design. For someone who knows sports data AND can code the interface. 🎯 Strong match.</p>
-      <a class="card-link" href="https://www.builtinnyc.com/jobs/dev-engineering/front-end/senior" target="_blank">View on Built In NYC →</a>
-    </div>
+  <div class="card jobs" data-category="jobs">
+    <span class="card-badge">Jobs · Sr. Frontend Eng</span>
+    <h2>Senior Frontend Engineer — Novig Sports Marketplace (NYC / Remote)</h2>
+    <p>Build and maintain web/mobile apps using React/React Native for a sports betting marketplace. Cross-browser compatibility, UI design collaboration, shipping impactful features for sports fans.</p>
+    <a href="https://www.builtinnyc.com/jobs/dev-engineering/front-end/senior" target="_blank">View on Built In NYC →</a>
+    <div class="meta">Active posting · via Built In NYC</div>
   </div>
 
-  <div class="card" data-cat="Jobs">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-Jobs">Jobs</span>
-        <span class="card-time">Remote · AI Platform</span>
-      </div>
-      <h2>Front End Engineer III — Falcon Platform (Lead Product Team, UX + Engineering)</h2>
-      <p>Develop the Falcon platform's UI, lead a product team, and ensure quality delivery in close partnership with UX. Stack: React, TypeScript, Playwright, Tailwind, Vite. Hybrid PM+Eng role. 🎯 Strong match.</p>
-      <a class="card-link" href="https://builtin.com/jobs/dev-engineering/front-end" target="_blank">View on Built In →</a>
-    </div>
+  <div class="card jobs" data-category="jobs">
+    <span class="card-badge">Jobs · Product Manager</span>
+    <h2>Product Manager, AI Agents — Built In (Chicago / Hybrid)</h2>
+    <p>Own the product roadmap for AI agent features at a leading tech job marketplace. Ideal for a PM who can translate complex AI capabilities into clear, user-first experiences.</p>
+    <a href="https://www.linkedin.com/jobs/view/product-manager-ai-agents-at-built-in-4399649166" target="_blank">View on LinkedIn →</a>
+    <div class="meta">Posted recently · via LinkedIn</div>
   </div>
 
-  <div class="card" data-cat="Jobs">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-Jobs">Jobs</span>
-        <span class="card-time">Remote · Sports AI</span>
-      </div>
-      <h2>Sports Software Engineer — AI Systems & Data Pipelines (Built In)</h2>
-      <p>Design and operate AI systems, build sports data pipelines, fine-tune models, and mentor team members. Ideal for someone building AI apps who can bridge engineering and data science.</p>
-      <a class="card-link" href="https://builtin.com/jobs/dev-engineering/sports" target="_blank">View on Built In →</a>
-    </div>
+  <div class="card jobs" data-category="jobs">
+    <span class="card-badge">Jobs · Sports Tech</span>
+    <h2>156 Sports Technology Roles on LinkedIn — Engineers, PMs, Data Leads</h2>
+    <p>LinkedIn's aggregated sports tech jobs board currently lists 156 active U.S. positions across engineering, product management, and sports data analytics. Good hunting ground for senior-level roles.</p>
+    <a href="https://www.linkedin.com/jobs/sports-technology-jobs" target="_blank">Browse on LinkedIn →</a>
+    <div class="meta">156 active listings · LinkedIn Jobs</div>
   </div>
 
-  <div class="card" data-cat="Jobs">
-    <div class="card-accent"></div>
-    <div class="card-body">
-      <div class="card-meta">
-        <span class="badge badge-Jobs">Jobs</span>
-        <span class="card-time">Remote · Sr/Staff Level</span>
-      </div>
-      <h2>Sr/Staff Frontend Engineer — Scalable Web Platform (React, TypeScript, Micro-Services)</h2>
-      <p>Architect new web applications, enhance UI experiences, and collaborate with cross-functional stakeholders on a secure, scalable platform. Great fit for 20+ yrs experience stepping into a staff-level architect seat.</p>
-      <a class="card-link" href="https://www.builtinla.com/jobs/dev-engineering/front-end" target="_blank">View on Built In LA →</a>
-    </div>
+  <div class="card jobs" data-category="jobs">
+    <span class="card-badge">Jobs · Sports Product Dev</span>
+    <h2>4,000+ Sports Product Development Jobs — Senior / Staff Level Opportunities</h2>
+    <p>LinkedIn's sports product development category is booming with 4,000+ open roles. Filters for "staff," "principal," or "director" surface senior ICs and PM roles at orgs like ESPN, DraftKings, Second Spectrum, and more.</p>
+    <a href="https://www.linkedin.com/jobs/sports-product-development-jobs" target="_blank">Browse on LinkedIn →</a>
+    <div class="meta">4,000+ active listings · LinkedIn Jobs</div>
   </div>
 
 </div>
 
 <script>
-// Filter logic
-const btns = document.querySelectorAll('.filter-btn[data-cat]');
-const cards = document.querySelectorAll('.card');
-const sections = document.querySelectorAll('.section-header');
+  // Filter logic
+  const btns = document.querySelectorAll('.filter-btn[data-filter]');
+  const cards = document.querySelectorAll('.card[data-category]');
+  const sections = document.querySelectorAll('.section-label[data-section]');
 
-btns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const cat = btn.dataset.cat;
-    cards.forEach(card => {
-      card.classList.toggle('hidden', cat !== 'All' && card.dataset.cat !== cat);
-    });
-    sections.forEach(sec => {
-      const secCat = sec.dataset.section;
-      sec.classList.toggle('hidden', cat !== 'All' && secCat !== cat);
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c => {
+        c.classList.toggle('hidden', f !== 'all' && c.dataset.category !== f);
+      });
+      sections.forEach(s => {
+        const sectionCards = document.querySelectorAll(`.card[data-category="${s.dataset.section}"]`);
+        const anyVisible = f === 'all' || f === s.dataset.section;
+        s.classList.toggle('hidden', !anyVisible);
+      });
     });
   });
-});
 
-// Copy-to-clipboard headline buttons
-document.querySelectorAll('.card h2').forEach(h2=>{const w=document.createElement('div');w.className='card-title-row';h2.parentNode.insertBefore(w,h2);w.appendChild(h2);const b=document.createElement('button');b.className='copy-btn';b.title='Copy headline';b.innerHTML='⎘';b.addEventListener('click',e=>{e.stopPropagation();navigator.clipboard.writeText(h2.textContent.trim()).then(()=>{b.innerHTML='✓';b.classList.add('copied');setTimeout(()=>{b.innerHTML='⎘';b.classList.remove('copied');},1800);});});w.appendChild(b);});
+  // Copy-to-clipboard for card headlines
+  document.querySelectorAll('.card h2').forEach(h2=>{const w=document.createElement('div');w.className='card-title-row';h2.parentNode.insertBefore(w,h2);w.appendChild(h2);const b=document.createElement('button');b.className='copy-btn';b.title='Copy headline';b.innerHTML='⎘';b.addEventListener('click',e=>{e.stopPropagation();navigator.clipboard.writeText(h2.textContent.trim()).then(()=>{b.innerHTML='✓';b.classList.add('copied');setTimeout(()=>{b.innerHTML='⎘';b.classList.remove('copied');},1800);});});w.appendChild(b);});
 </script>
+
 </body>
 </html>
